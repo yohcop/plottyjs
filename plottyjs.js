@@ -235,14 +235,13 @@ var plottyjs = {};
       return true;
     }
 
-    // We have subdivided enough without finding an Inf or NaN.
-
     var s1 = sign(p1[1], my);
     var s2 = sign(my, p2[1]);
     // Neither s1 or s2 are '0', i.e this section was not flat,
     // and they are different, so derivative changed sign.
     if (s1 && s2 && s1 != s2) {
       if (n == 10) {
+        // We have subdivided enough without finding an Inf or NaN.
         return true;
       }
       return checkAsymptote(fx, fy, t1, p1, mt, mp, n + 1) ||
