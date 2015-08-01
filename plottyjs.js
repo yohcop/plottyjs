@@ -59,54 +59,54 @@ var plottyjs = {};
   };
 
   this.Plot.prototype.cartesian = function (y, t) {
-      if (typeof y == 'string') {
-          var f = math.compile(y);
-          y = function (x) {
-              return f.eval({
-                  x: x
-              });
-          };
-      }
-      var line = this.plot(identity, y);
-      return line;
+    if (typeof y == 'string') {
+      var f = math.compile(y);
+      y = function (x) {
+        return f.eval({
+          x: x
+        });
+      };
+    }
+    var line = this.plot(identity, y);
+    return line;
   };
 
   this.Plot.prototype.polar = function (r) {
-      if (typeof r == 'string') {
-        var f = math.compile(r);
-        r = function(o) {
-          return f.eval({
-              o: o
-          });
-        };
-      }
-      var line = this.plot(function (o) {
-          return r(o) * Math.cos(o);
-      }, function (o) {
-          return r(o) * Math.sin(o);
-      });
-      return line;
+    if (typeof r == 'string') {
+      var f = math.compile(r);
+      r = function(o) {
+        return f.eval({
+          o: o
+        });
+      };
+    }
+    var line = this.plot(function (o) {
+        return r(o) * Math.cos(o);
+    }, function (o) {
+        return r(o) * Math.sin(o);
+    });
+    return line;
   };
 
   this.Plot.prototype.parametric = function (x, y) {
-      if (typeof x == 'string') {
-        var fx = math.compile(x);
-        x = function (t) {
-          return fx.eval({
-              t: t
-          });
-        };
-      }
-      if (typeof y == 'string') {
-        var fy = math.compile(y);
-        y = function (t) {
-          return fy.eval({
-              t: t
-          });
-        };
-      }
-      var line = this.plot(x, y);
-      return line;
+    if (typeof x == 'string') {
+      var fx = math.compile(x);
+      x = function (t) {
+        return fx.eval({
+          t: t
+        });
+      };
+    }
+    if (typeof y == 'string') {
+      var fy = math.compile(y);
+      y = function (t) {
+        return fy.eval({
+          t: t
+        });
+      };
+    }
+    var line = this.plot(x, y);
+    return line;
   };
 
   this.Plot.prototype.plot = function (fx, fy) {
@@ -122,25 +122,25 @@ var plottyjs = {};
     var lastPt = null;
     var lastT = null;
     for (var i = 0; i < ts.length; i++) {
-        t1 = ts[i];
-        var x1 = fx(t1);
-        var y1 = fy(t1);
-        var pt = [x1, y1];
+      t1 = ts[i];
+      var x1 = fx(t1);
+      var y1 = fy(t1);
+      var pt = [x1, y1];
 
-        if (Number.isNaN(x1) || !Number.isFinite(x1) || Number.isNaN(y1) || !Number.isFinite(y1)) {
-            if (pts.length > 0) pieces.push(pts);
-            pts = [];
-            lastPt = null;
-        } else if (checkAsymptote(fx, fy, lastT, lastPt, t1, pt, 0)) {
-            if (pts.length > 0) pieces.push(pts);
-            pts = [];
-            pts.push(pt);
-            lastPt = pt;
-        } else {
-            pts.push(pt);
-            lastPt = pt;
-        }
-        lastT = t1;
+      if (Number.isNaN(x1) || !Number.isFinite(x1) || Number.isNaN(y1) || !Number.isFinite(y1)) {
+        if (pts.length > 0) pieces.push(pts);
+        pts = [];
+        lastPt = null;
+      } else if (checkAsymptote(fx, fy, lastT, lastPt, t1, pt, 0)) {
+        if (pts.length > 0) pieces.push(pts);
+        pts = [];
+        pts.push(pt);
+        lastPt = pt;
+      } else {
+        pts.push(pt);
+        lastPt = pt;
+      }
+      lastT = t1;
     }
     if (pts.length > 0) pieces.push(pts);
 
@@ -150,9 +150,9 @@ var plottyjs = {};
     // Stick all the pieces together
     var lineData = "";
     for (var i = 0; i < pieces.length; ++i) {
-        if (pieces[i].length > 1) {
-            lineData += line(pieces[i]);
-        }
+      if (pieces[i].length > 1) {
+        lineData += line(pieces[i]);
+      }
     }
     return this.svg.append("path").attr("d", lineData);
   };
