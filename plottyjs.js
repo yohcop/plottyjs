@@ -50,7 +50,6 @@ var plottyjs = {};
     this.xbounds = options.xbounds;
     this.ybounds = options.ybounds;
     this.margin = options.margin || 2;
-    console.log(this.t);
 
     this.width = root.attr("width");
     this.height = root.attr("height");
