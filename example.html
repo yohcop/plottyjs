@@ -1,0 +1,113 @@
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.0.1/math.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    showProcessingMessages: false,
+  });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+  <script src="plottyjs.js"></script>
+
+  <style>
+    path {
+      stroke: black;
+      stroke-width: 2;
+      fill: none;
+    }
+    .plot path { stroke: lightsalmon }
+    .love path { stroke: lightcoral }
+    #asym path { stroke: lightslategray }
+    #polar path { stroke: lightblue }
+    #atan path { stroke: lightcoral }
+    #param2 path { stroke: lightgreen }
+    svg {
+      margin: 1.5em auto;
+      display: block;
+    }
+    hr { border: 1px dashed #ddd }
+  </style>
+</head>
+</body>
+  <h2>Examples using javasript</h2>
+  Multiple functions on a single plot
+  <script>
+    var plot = plottyjs.newPlot(400, 200, {
+      t: [-5, 5],
+      ybounds: [-2.5, 2.5],
+      samples: 300
+    });
+    plot.cartesian('sin(x)').style('stroke', 'lightblue');
+    plot.cartesian('4 / (1 + exp(-x))-2');
+    plot.cartesian('sqrt(x)').style('stroke', 'lightgreen');
+    plot.cartesian('x^2').style('stroke', 'lightpink');
+    // Commented some, it was kind of a lot.
+    //plot.cartesian('tan(x)+0.5').style('stroke', 'lightcoral');
+    //plot.cartesian('1/x').style('stroke', 'lightslategray');
+    //plot.cartesian('1/(x-pi)+0.5').style('stroke', 'lightslategray');
+  </script>
+
+  <hr>
+  A parametric equation $$x = \sin(2t)\\ y = \sin(3t)$$.
+  <script>
+    var plot = plottyjs.newPlot(300, 300, {
+      xbounds: [-1.2, 1.2],
+      ybounds: [-1.2, 1.2],
+      t: [0, 2*Math.PI],
+      samples: 300
+    });
+    plot.parametric('sin(2*t)', 'sin(3*t)');
+  </script>
+
+  <hr>
+  Some love
+  <script>
+    var plot = plottyjs.newPlot(300, 300, {
+      xbounds: [-16, 16],
+      t: [0, 2*Math.PI],
+      samples: 300
+    });
+    plot.parametric('16*(sin(t)^3)', '13*cos(t)-5*cos(2*t)-2*cos(3*t)-cos(4*t)');
+    plot.svg.attr('class', 'love');
+  </script>
+
+  <hr>
+  <h2>Examples using html tag</h2>
+  A cartesian equation with asymptote at \( x=\pi \): $$y=\frac{1}{x-\pi}$$ with \(x \in [-3, 6]\) and \(y \in [-15, 15] \)
+  <span class="plot" id="asym" data-y="1/(x-pi)"
+        data-from="-3" data-to="6"
+        data-bottom="-15" data-top="15"
+        data-width="300" data-height="100"></span>
+
+  <hr>
+  A cartesian equation \(y=\arctan(x)\). The y axis is automatically scaled.
+  <span class="plot" id="atan" data-y="atan(x)"
+        data-from="-10" data-to="10"
+        data-width="300" data-height="100"></span>
+
+  <hr>
+  A parametric equation $$x = \sin(2t)\\ y = \sin(3t)$$ with \(t \in [0, 2 \pi] \)
+  <span class="plot" id="param2" data-x="sin(2*t)" data-y="sin(3*t)"
+        data-from="0" data-to="6.28"
+        data-width="100" data-height="100"></span>
+
+  <hr>
+  A polar equation \(\sin(\theta/\pi)\) with \(\theta \in [0, 19] \)
+  <span class="plot" id="polar" data-r="sin(o/pi)"
+        data-from="0" data-to="19"
+        data-width="200" data-height="200"></span>
+
+  <hr>
+  A polar equation \(\sin(\theta)+\sin^3(\frac{5\theta}{2})\) with \(\theta \in [0, 4\pi] \)
+  <span class="plot" id="polar2" data-r="sin(o)+(sin(5*o/2))^3"
+        data-from="0" data-to="12.5663706144"
+        data-samples="300"
+        data-width="200" data-height="200"></span>
+
+  <script>
+    plottyjs.makePlots(document.querySelectorAll('.plot'));
+  </script>
+</body>
