@@ -4,6 +4,8 @@ Plottyjs plots functions in your HTML with d3js.
 It is not meant to become interactive or fully featured, it was written to
 embed plots in documentation, blogs, etc.
 
+See the [example page](http://htmlpreview.github.io/?https://github.com/yohcop/plottyjs/blob/master/example.html)
+
 # Documentation
 
 ## Using javascript
